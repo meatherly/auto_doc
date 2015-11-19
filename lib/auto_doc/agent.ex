@@ -1,5 +1,8 @@
-defmodule ExCado.DocAgent do
+defmodule AutoDoc.Agent do
   def start_link do
+    System.at_exit fn _ ->
+      create_doc_file
+    end
     Agent.start_link(fn -> [] end, name: __MODULE__)
   end
 
@@ -14,18 +17,12 @@ defmodule ExCado.DocAgent do
     conn
   end
 
-  def get_docs() do
-    Agent.get(__MODULE__, fn(docs) -> docs  end)
-  end
-
   def create_doc_file do
-    tests = get_docs
+    tests = Agent.get(__MODULE__, fn(docs) -> docs  end)
     file_contents =
       Path.join([__DIR__, "..", "templates/api_docs.html.eex"])
       |> Path.expand
       |> EEx.eval_file([tests: tests])
-      # IO.inspect
-    # IO.inspect "#{Path.expand(".")}/api_docs.html"
     File.write!("#{Path.expand(".")}/api_docs.html", file_contents)
   end
 end

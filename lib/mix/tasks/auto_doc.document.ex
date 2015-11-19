@@ -5,13 +5,8 @@ defmodule Mix.Tasks.AutoDoc.Document do
 
   def run(_args) do
     Mix.env(:test)
-    ExCado.DocAgent.start_link
-
-    Mix.Task.run "compile"
-    Mix.Project.compile() |> IO.inspect
-    IO.inspect "SDSSS"
+    AutoDoc.DocAgent.start_link
     Mix.Task.run "test"
-
-    ExCado.DocAgent.get_docs
+    AutoDoc.DocAgent.get_docs
   end
 end

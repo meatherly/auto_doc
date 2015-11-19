@@ -1,8 +1,8 @@
-defmodule ExCado.Mixfile do
+defmodule AutoDoc.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ex_cado,
+    [app: :auto_doc,
      version: "0.0.1",
      elixir: "~> 1.1",
      build_embedded: Mix.env == :prod,
