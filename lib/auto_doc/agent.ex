@@ -1,8 +1,6 @@
 defmodule AutoDoc.Agent do
   def start_link do
-    System.at_exit fn _ ->
-      create_doc_file
-    end
+    System.at_exit(&AutoDoc.Agent.write_file/1)
     Agent.start_link(fn -> [] end, name: __MODULE__)
   end
 
@@ -17,12 +15,22 @@ defmodule AutoDoc.Agent do
     conn
   end
 
-  def create_doc_file do
-    tests = Agent.get(__MODULE__, fn(docs) -> docs  end)
-    file_contents =
-      Path.join([__DIR__, "..", "templates/api_docs.html.eex"])
-      |> Path.expand
-      |> EEx.eval_file([tests: tests])
-    File.write!("#{Path.expand(".")}/api_docs.html", file_contents)
+
+
+  def write_file(exit_code) do
+    case exit_code do
+      1 ->
+        Mix.Shell.IO.info("Tests have failed. No docs will be generated")
+      0 ->
+        tests = Agent.get(__MODULE__, fn(docs) -> docs  end)
+        file_contents =
+          Path.join([__DIR__, "..", "templates/api_docs.html.eex"])
+          |> Path.expand
+          |> EEx.eval_file([tests: tests])
+        File.write!("#{Path.expand(".")}/api_docs.html", file_contents)
+        Mix.Shell.IO.info("Api docs have been created.")
+      _ ->
+        Mix.Shell.IO.info("Something Bad has happened. No docs have been generated.")
+    end
   end
 end
