@@ -2,8 +2,11 @@ defmodule AutoDoc do
   use Application
 
   def start do
-    import Supervisor.Spec, warn: false
+    Application.ensure_all_started(:auto_doc)
+  end
 
+  def start(_,_) do
+    import Supervisor.Spec, warn: false
     children = [
       worker(AutoDoc.Agent, [])
     ]
@@ -15,7 +18,7 @@ defmodule AutoDoc do
 
   def document_api(%Plug.Conn{} = conn, test_name) do
     Plug.Conn.register_before_send(conn, fn(conn) ->
-      AutoDoc.Agent.add_conn_to_docs(conn, test_name)
+      AutoDoc.Agent.add_test_to_docs(conn, test_name)
     end)
   end
 end

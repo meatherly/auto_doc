@@ -6,7 +6,7 @@ defmodule AutoDoc.Agent do
     Agent.start_link(fn -> [] end, name: __MODULE__)
   end
 
-  def add_conn_to_docs(conn, test_name) do
+  def add_test_to_docs(conn, test_name) do
     Agent.get_and_update(__MODULE__, fn(docs) ->
       %{params: params, req_headers: req_headers, method: method, request_path: request_path} = conn
       request = %{params: params, req_headers: req_headers, method: method, request_path: request_path}

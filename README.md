@@ -17,7 +17,7 @@ The package can be installed as:
 
   1. Add these functions to your `test_helper.exs` file:
   ``` elixir
-  AutoDoc.Agent.start_link
+  AutoDoc.start
   ```
 
   2. Add `conext` to your `setup` function. Also pass the `conn` and `conext[:test]` to `AutoDoc.document_api/2` in your setup block.
