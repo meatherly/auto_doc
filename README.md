@@ -7,6 +7,7 @@
 The package can be installed as:
 
   1. Add auto_doc to your list of dependencies in `mix.exs`:
+
     ``` elixir
     def deps do
       [{:auto_doc, github: "meatherly/auto_doc"}]
@@ -16,11 +17,13 @@ The package can be installed as:
 ## Usage
 
   1. Add these functions to your `test_helper.exs` file:
+  
   ``` elixir
   AutoDoc.start
   ```
 
   2. Add `conext` to your `setup` function. Also pass the `conn` and `conext[:test]` to `AutoDoc.document_api/2` in your setup block.
+
     ``` elixir
     setup context do
       conn =
