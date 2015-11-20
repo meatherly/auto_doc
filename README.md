@@ -22,7 +22,7 @@ The package can be installed as:
   AutoDoc.start
   ```
 
-  2. Add `conext` to your `setup` function. Also pass the `conn` and `conext[:test]` to `AutoDoc.document_api/2` in your setup block.
+  2. Add `context` to your `setup` function. Also pass the `conn` and `context[:test]` to `AutoDoc.document_api/2` in your setup block.
 
     ``` elixir
     setup context do
