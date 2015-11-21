@@ -38,11 +38,11 @@ The package can be installed as:
   3. Run `mix test`. This will create a `api-docs.html` file at the root of your project which you can then open with a web browser.
 
 
+  *For large teams you'll want to add `api-docs.html` to your `.gitignore`*
+
   ## Todo
 
-  * Write tests!
   * Clean up code!
   * Make Hex package
   * Create a cowboy server to serve the `api-docs.html` via router `Plug`.
-  * Make the doc page more readable.
   * Allow user to set an `ENV` to determine whether to create docs or not. This way they can create the docs on the build server.

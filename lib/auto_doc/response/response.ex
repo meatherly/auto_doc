@@ -1,5 +1,9 @@
 defmodule AutoDoc.Response do
+  @moduledoc """
+  This is the `Response` struct.
 
+  It pulls out `body` and `status` properties from the `Plug.Conn` struct.
+  """
   @type t :: %__MODULE__{
               body:    binary,
               status:  integer,
@@ -11,14 +15,9 @@ defmodule AutoDoc.Response do
 
   alias AutoDoc.Response
 
-  @spec new(Plug.Conn.t) :: t
+  @doc false
   def new(%Plug.Conn{resp_body: body, status: status, resp_headers: headers} = conn) do
     %Response{body: IO.iodata_to_binary(body), status: status, headers: headers}
-  end
-
-  @spec valid?(t) :: boolean
-  def valid?(%Response{} = response) do
-    has_json_header?(response.headers)
   end
 
   defp has_json_header?(headers) do

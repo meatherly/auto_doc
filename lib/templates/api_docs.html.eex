@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Api Docs</title>
+    <!-- twbs 3.3.5 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
     <script type="text/javascript">
       function prettyPrintJson() {
         var jsonNodes = document.getElementsByClassName("json");
@@ -15,55 +18,64 @@
     </script>
 
     <style media="screen">
-      .test-case {
-        border: solid black 1px;
-        padding: 10px;
-        margin: 10px;
-      }
-      .json {
-        white-space: pre;
+      .request .method {
+        text-transform: capitalize;
+        font-weight: bold;
       }
     </style>
-    
+
   </head>
   <body onload="prettyPrintJson()">
-    <h1>API Docs</h1>
-    <div class="test-cases">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">API Docs</h1>
+        </div>
+      </div>
       <%= for test <- tests do %>
-        <div class="test-case">
-          <p class="name">
-            <%= test.test_name %>
-          </p>
-          <div class="request">
-            <p>
-              <%= test.request.method %> <%= test.request.path %>
-            </p>
-            <h3>Headers</h3>
-            <%= for headers <- test.request.headers do %>
-            <p>
-              <code>
-                <%= Enum.join(Tuple.to_list(headers), ": ") %>
-              </code>
-            </p>
-            <% end %>
-            <h3>Params</h3>
-            <p>
-              <code class="json">
-                <%= Poison.encode!(test.request.params) %>
-              </code>
-            </p>
-          </div>
-          <div class="response">
-            <h3>Status</h3>
-            <p>
-              <code>
-                <%= test.response.status %>
-              </code>
-            </p>
-            <h3>Response</h3>
-            <code class="json">
-              <%= test.response.body %>
-            </code>
+        <div class="test-case row">
+          <div class="col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h2 class="panel-title"><%= test.test_name %></h2>
+              </div>
+              <div class="panel-body">
+                <h4>Request</h4>
+                <div class="request">
+                  <h5>Path</h5>
+                  <div>
+                    <kbd class="method"><%= test.request.method %></kbd> <samp class="path"><%= test.request.path %></samp>
+                  </div>
+                  <h5>Headers</h5>
+                  <%= if Enum.count(test.request.headers) > 0 do %>
+                  <%= for headers <- test.request.headers do %>
+                  <pre>
+                    <%= Enum.join(Tuple.to_list(headers), ": ") %>
+                  </pre>
+                  <% end %>
+                  <% else %>
+                  <pre>NONE</pre>
+                  <% end %>
+                  <h5>Params</h5>
+                  <pre class="json">
+                    <%= Poison.encode!(test.request.params) %>
+                  </pre>
+                </div>
+                <hr>
+                <h4>Response</h4>
+                <div class="response">
+                  <h5>Status</h5>
+                  <div class="status">
+                    <pre><%= test.response.status %></pre>
+                  </div>
+                  <h5>Response</h5>
+                  <pre class="json">
+                    <%= test.response.body %>
+                  </pre>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       <% end %>

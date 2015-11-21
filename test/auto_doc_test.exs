@@ -11,7 +11,7 @@ defmodule AutoDocTest do
     {:ok, agent: agent}
   end
 
-  test "JSON transations should be added to the AutoDoc.Agent", %{agent: agent} do
+  test "test should be added to the AutoDoc.Agent", %{agent: agent} do
     conn =
       conn(:get, "/index")
       |> AutoDoc.document_api("Test 1")
@@ -22,15 +22,5 @@ defmodule AutoDocTest do
       %{response: AutoDoc.Response.new(conn),
       request: AutoDoc.Request.new(conn),
       test_name: "Test 1"}]
-  end
-
-  test "Non JSON transations shouldn't be added to the AutoDoc.Agent", %{agent: agent} do
-    conn =
-      conn(:get, "/html")
-      |> AutoDoc.document_api("Test 1")
-      |> AutoDoc.TestApp.call(@opts)
-
-    docs = Agent.get(agent, fn(docs) -> docs end)
-    assert Enum.count(docs) == 0
   end
 end

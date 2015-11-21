@@ -1,13 +1,18 @@
 defmodule AutoDoc.Mixfile do
   use Mix.Project
 
+  @version "0.0.1"
+
   def project do
     [app: :auto_doc,
-     version: "0.0.1",
+     version: @version,
      elixir: "~> 1.1",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     name: "AutoDoc",
+     source_url: "https://github.com/meatherly/auto_doc",
      deps: deps,
+     docs: [extras: ["README.md"]],
      elixirc_paths: elixirc_paths(Mix.env)]
   end
 
@@ -30,7 +35,11 @@ defmodule AutoDoc.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:plug, "~> 1.0"},
-    {:poison, "~> 1.5"}]
+    {:poison, "~> 1.5"},
+
+    # Docs dependencies
+    {:earmark, "~> 0.1", only: :docs},
+    {:ex_doc, "~> 0.10", only: :docs}]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]

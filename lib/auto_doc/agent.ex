@@ -1,28 +1,33 @@
 defmodule AutoDoc.Agent do
+  @moduledoc false
+
   alias AutoDoc.Request
   alias AutoDoc.Response
 
+  @doc false
   def start_link do
     System.at_exit(&AutoDoc.Agent.write_file/1)
     Agent.start_link(fn -> [] end, name: __MODULE__)
   end
 
-
+  @doc false
   def add_test_to_docs(conn, test_name) do
     request = Request.new(conn)
     response = Response.new(conn)
-    if Response.valid?(response) do
-      Agent.get_and_update(__MODULE__, fn(docs) ->
-        {docs, [%{test_name: test_name, request: request, response: response}| docs]}
-      end)
-    end
+
+    Agent.get_and_update(__MODULE__, fn(docs) ->
+      {docs, [%{test_name: test_name, request: request, response: response}| docs]}
+    end)
+
     conn
   end
 
+  @doc false
   def clear_docs do
     Agent.update(__MODULE__, fn _ -> [] end)
   end
 
+  @doc false
   def write_file(exit_code) do
     case exit_code do
       1 ->
