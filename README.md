@@ -12,7 +12,7 @@ The package can be installed as:
 
     ``` elixir
     def deps do
-      [{:auto_doc, github: "meatherly/auto_doc"}]
+      [{:auto_doc, github: "meatherly/auto_doc", only: :test}]
     end
     ```
 
