@@ -38,7 +38,7 @@ The package can be installed as:
   3. Run `mix test`. This will create a `api-docs.html` file at the root of your project which you can then open with a web browser.
 
 
-  *For large teams you'll want to add `api-docs.html` to your `.gitignore`*
+  **For large teams you'll want to add `api-docs.html` to your `.gitignore`**
 
   ## Todo
 
