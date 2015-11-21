@@ -3,3 +3,4 @@
 /deps
 erl_crash.dump
 *.ez
+api_docs.html

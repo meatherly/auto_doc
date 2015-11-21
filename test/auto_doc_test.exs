@@ -1,8 +1,36 @@
 defmodule AutoDocTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
+  use Plug.Test
   doctest AutoDoc
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  @opts AutoDoc.TestApp.init([])
+
+  setup do
+    AutoDoc.Agent.clear_docs
+    agent = Process.whereis(AutoDoc.Agent)
+    {:ok, agent: agent}
+  end
+
+  test "JSON transations should be added to the AutoDoc.Agent", %{agent: agent} do
+    conn =
+      conn(:get, "/index")
+      |> AutoDoc.document_api("Test 1")
+      |> AutoDoc.TestApp.call(@opts)
+
+    docs = Agent.get(agent, fn(docs) -> docs end)
+    assert docs == [
+      %{response: AutoDoc.Response.new(conn),
+      request: AutoDoc.Request.new(conn),
+      test_name: "Test 1"}]
+  end
+
+  test "Non JSON transations shouldn't be added to the AutoDoc.Agent", %{agent: agent} do
+    conn =
+      conn(:get, "/html")
+      |> AutoDoc.document_api("Test 1")
+      |> AutoDoc.TestApp.call(@opts)
+
+    docs = Agent.get(agent, fn(docs) -> docs end)
+    assert Enum.count(docs) == 0
   end
 end

@@ -1,21 +1,27 @@
 defmodule AutoDoc.Agent do
+  alias AutoDoc.Request
+  alias AutoDoc.Response
+
   def start_link do
     System.at_exit(&AutoDoc.Agent.write_file/1)
     Agent.start_link(fn -> [] end, name: __MODULE__)
   end
 
+
   def add_test_to_docs(conn, test_name) do
-    Agent.get_and_update(__MODULE__, fn(docs) ->
-      %{params: params, req_headers: req_headers, method: method, request_path: request_path} = conn
-      request = %{params: params, req_headers: req_headers, method: method, request_path: request_path}
-      %{resp_body: resp_body, status: status} = conn
-      response = %{resp_body: IO.iodata_to_binary(resp_body), status: status}
-      {docs, [%{test_name: test_name, request: request, response: response}| docs]}
-    end)
+    request = Request.new(conn)
+    response = Response.new(conn)
+    if Response.valid?(response) do
+      Agent.get_and_update(__MODULE__, fn(docs) ->
+        {docs, [%{test_name: test_name, request: request, response: response}| docs]}
+      end)
+    end
     conn
   end
 
-
+  def clear_docs do
+    Agent.update(__MODULE__, fn _ -> [] end)
+  end
 
   def write_file(exit_code) do
     case exit_code do
@@ -33,4 +39,5 @@ defmodule AutoDoc.Agent do
         Mix.Shell.IO.info("Something Bad has happened. No docs have been generated.")
     end
   end
+
 end

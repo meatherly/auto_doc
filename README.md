@@ -1,4 +1,6 @@
 # AutoDoc
+[![Build Status](https://travis-ci.org/meatherly/auto_doc.svg)](https://travis-ci.org/meatherly/auto_doc)
+
 `AutoDoc` is a Elixir implementation of [Avocado](https://github.com/metova/avocado). It automatically creates Web API documentation for any Elixir application using `Plug`. All docs are generated based on the requests made during the tests.
 
 
@@ -17,7 +19,7 @@ The package can be installed as:
 ## Usage
 
   1. Add these functions to your `test_helper.exs` file:
-  
+
   ``` elixir
   AutoDoc.start
   ```
