@@ -11,6 +11,7 @@ defmodule AutoDoc.Mixfile do
      start_permanent: Mix.env == :prod,
      name: "AutoDoc",
      package: package,
+     description: description,
      source_url: "https://github.com/meatherly/auto_doc",
      deps: deps,
      docs: [extras: ["README.md"]],
@@ -36,7 +37,7 @@ defmodule AutoDoc.Mixfile do
 
   defp description do
   """
-  A package that will create REST API docs based on your ExUnit tests. 
+  A package that will create REST API docs based on your ExUnit tests.
   """
   end
 
