@@ -6,26 +6,18 @@
     <!-- twbs 3.3.5 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
-    <script type="text/javascript">
-      function prettyPrintJson() {
-        var jsonNodes = document.getElementsByClassName("json");
-        for (i = 0; i < jsonNodes.length; i++) {
-            var json = JSON.parse(jsonNodes[i].innerText);
-            jsonNodes[i].innerText = JSON.stringify(json, null, 2);
-            jsonNodes[i].className = jsonNodes[i].className + " prettyprint";
-        }
-      }
-    </script>
-
     <style media="screen">
       .request .method {
         text-transform: capitalize;
         font-weight: bold;
       }
+      .request .headers {
+        white-space: normal;
+      }
     </style>
 
   </head>
-  <body onload="prettyPrintJson()">
+  <body>
 
     <div class="container-fluid">
       <div class="row">
@@ -50,17 +42,19 @@
                   <h5>Headers</h5>
                   <%= if Enum.count(test.request.headers) > 0 do %>
                   <%= for headers <- test.request.headers do %>
-                  <pre>
-                    <%= Enum.join(Tuple.to_list(headers), ": ") %>
+                  <pre class="headers">
+                    <%= Enum.join(Tuple.to_list(headers), ": ") |> String.strip %>
                   </pre>
                   <% end %>
                   <% else %>
                   <pre>NONE</pre>
                   <% end %>
+                  <%= if Map.size(test.request.params) > 0 do %>
                   <h5>Params</h5>
                   <pre class="json">
                     <%= Poison.encode!(test.request.params) %>
                   </pre>
+                  <% end %>
                 </div>
                 <hr>
                 <h4>Response</h4>
@@ -69,10 +63,12 @@
                   <div class="status">
                     <pre><%= test.response.status %></pre>
                   </div>
-                  <h5>Response</h5>
+                  <%= if String.length(test.response.body) > 0 do %>
+                  <h5>Body</h5>
                   <pre class="json">
                     <%= test.response.body %>
                   </pre>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -80,5 +76,20 @@
         </div>
       <% end %>
     </div>
+
+    <script type="text/javascript">
+      (function prettyPrintJson() {
+        var jsonNodes = document.getElementsByClassName("json");
+        for (i = 0; i < jsonNodes.length; i++) {
+          try {
+            var json = JSON.parse(jsonNodes[i].innerText.trim());
+            jsonNodes[i].innerText = JSON.stringify(json, null, 2);
+            jsonNodes[i].className = jsonNodes[i].className + " prettyprint";
+          } catch (error) {
+            console.error("Error: " + error);
+          }
+        }
+      })();
+    </script>
   </body>
 </html>
