@@ -40,6 +40,9 @@ The package can be installed as:
 
   **For large teams you'll want to add `api-docs.html` to your `.gitignore`**
 
+  ## Example Doc Page
+  ![Alt text](example_screen_shot.png?raw=true "Title")
+
   ## Todo
 
   * Clean up code!
