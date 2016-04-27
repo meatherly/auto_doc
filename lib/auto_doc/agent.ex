@@ -29,6 +29,12 @@ defmodule AutoDoc.Agent do
 
   @doc false
   def write_file(exit_code) do
+    exit_code
+      |> write_file("#{Path.expand(".")}/api_docs.html")
+  end
+
+  @doc false
+  def write_file(exit_code, file_name) do
     case exit_code do
       1 ->
         Mix.Shell.IO.info("Tests have failed. No docs will be generated")
@@ -38,7 +44,7 @@ defmodule AutoDoc.Agent do
           Path.join([__DIR__, "..", "templates/api_docs.html.eex"])
           |> Path.expand
           |> EEx.eval_file([tests: tests])
-        File.write!("#{Path.expand(".")}/api_docs.html", file_contents)
+        File.write!(file_name, file_contents)
         Mix.Shell.IO.info("Api docs have been created.")
       _ ->
         Mix.Shell.IO.info("Something Bad has happened. No docs have been generated.")
