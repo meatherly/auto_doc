@@ -35,7 +35,7 @@ defmodule AutoDoc.Agent do
 
   @doc false
   def write_file(exit_code, file_name) do
-    write_file(exit_code, file_name, "md")
+    write_file(exit_code, file_name, "html")
   end
 
   @doc false
