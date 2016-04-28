@@ -12,11 +12,25 @@ defmodule AutoDoc.Agent do
 
   @doc false
   def add_test_to_docs(conn, test_name) do
+    conn
+    |> add_test_to_docs(test_name, "#{Path.expand(".")}/api_docs")
+  end
+
+  def add_test_to_docs(conn, test_name, file_name) do
+    conn
+    |> add_test_to_docs(test_name, file_name, "html")
+  end
+
+  def add_test_to_docs(conn, test_name, file_name, file_format) do
     request = Request.new(conn)
     response = Response.new(conn)
 
     Agent.get_and_update(__MODULE__, fn(docs) ->
-      {docs, [%{test_name: test_name, request: request, response: response}| docs]}
+      {docs, [%{test_name: test_name,
+                request: request,
+                response: response,
+                file_name: file_name,
+                file_format: file_format}| docs]}
     end)
 
     conn
@@ -29,27 +43,20 @@ defmodule AutoDoc.Agent do
 
   @doc false
   def write_file(exit_code) do
-    exit_code
-      |> write_file("#{Path.expand(".")}/api_docs")
-  end
-
-  @doc false
-  def write_file(exit_code, file_name) do
-    write_file(exit_code, file_name, "html")
-  end
-
-  @doc false
-  def write_file(exit_code, file_name, tpl_format) do
     case exit_code do
       1 ->
         Mix.Shell.IO.info("Tests have failed. No docs will be generated")
       0 ->
-        tests = Agent.get(__MODULE__, fn(docs) -> docs  end)
-        file_contents =
-          Path.join([__DIR__, "..", "templates/api_docs.#{tpl_format}.eex"])
-          |> Path.expand
-          |> EEx.eval_file([tests: tests])
-        File.write!("#{file_name}.#{tpl_format}", file_contents)
+        __MODULE__
+          |> Agent.get(fn(docs) -> docs  end)
+          |> Enum.group_by(fn(item) -> {item[:file_name], item[:file_format]} end)
+          |> Enum.map(fn({{file_name, file_format}, tests}) ->
+            file_contents =
+              Path.join([__DIR__, "..", "templates/api_docs.#{file_format}.eex"])
+              |> Path.expand
+              |> EEx.eval_file([tests: tests])
+            File.write!("#{file_name}.#{file_format}", file_contents)
+          end)
         Mix.Shell.IO.info("Api docs have been created.")
       _ ->
         Mix.Shell.IO.info("Something Bad has happened. No docs have been generated.")

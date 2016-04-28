@@ -23,7 +23,9 @@ defmodule AutoDocTest do
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
       request: AutoDoc.Request.new(conn),
-      test_name: "Retrieve a list of users"}
+      test_name: "Retrieve a list of users",
+      file_name: "#{Path.expand(".")}/api_docs",
+      file_format: "html"}
     end)
   end
 
@@ -37,7 +39,9 @@ defmodule AutoDocTest do
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
       request: AutoDoc.Request.new(conn),
-      test_name: "Add a new user"}
+      test_name: "Add a new user",
+      file_name: "#{Path.expand(".")}/api_docs",
+      file_format: "html"}
     end)
   end
 
@@ -51,7 +55,9 @@ defmodule AutoDocTest do
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
       request: AutoDoc.Request.new(conn),
-      test_name: "Update a user"}
+      test_name: "Update a user",
+      file_name: "#{Path.expand(".")}/api_docs",
+      file_format: "html"}
     end)
   end
 
@@ -65,7 +71,9 @@ defmodule AutoDocTest do
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
       request: AutoDoc.Request.new(conn),
-      test_name: "Delete a user"}
+      test_name: "Delete a user",
+      file_name: "#{Path.expand(".")}/api_docs",
+      file_format: "html"}
     end)
   end
 end
