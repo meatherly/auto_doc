@@ -1,33 +1,22 @@
-<%= for test <- tests do %>
-# <%= test.test_name %>
+<%= for test <- tests do %># <%= test.test_name %>
 
 ## <%= test.request.method %> <%= test.request.path %>
 
 ### Request
-
-<%= if Enum.count(test.request.headers) > 0 do %>
-#### Headers
-  <%= for headers <- test.request.headers do %>
-  - <%= Enum.join(Tuple.to_list(headers), ": ") |> String.strip %>
-  <% end %>
-
-<% end %>
-<%= if Map.size(test.request.params) > 0 do %>
-#### Params
-```json
+<%= if Enum.count(test.request.headers) > 0 do %><%= for headers <- test.request.headers do %>* <%= "#{Enum.join(Tuple.to_list(headers), ": `")}`" |> String.strip %>
+<% end %><% end %>
+<%= if Map.size(test.request.params) > 0 do %>```json
 <%= Poison.encode!(test.request.params) %>
 ```
-
 <% end %>
 ### Response
 
-#### Status code `<%= test.response.status %>`
+* Status: `<%= test.response.status %>`
+<%= if Enum.count(test.response.headers) > 0 do %><%= for headers <- test.response.headers do %>* <%= "#{Enum.join(Tuple.to_list(headers), ": `")}`" |> String.strip %>
+<% end %><% end %>
+<%= if String.length(test.response.body) > 0 do %>Returns this body response :
 
-<%= if String.length(test.response.body) > 0 do %>
-#### Body
 ```json
 <%= test.response.body %>
-```
-
-<% end %>
+```<% end %>
 <% end %>
