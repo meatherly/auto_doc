@@ -1,0 +1,33 @@
+<%= for test <- tests do %>
+# <%= test.test_name %>
+
+## <%= test.request.method %> <%= test.request.path %>
+
+### Request
+
+<%= if Enum.count(test.request.headers) > 0 do %>
+#### Headers
+  <%= for headers <- test.request.headers do %>
+  - <%= Enum.join(Tuple.to_list(headers), ": ") |> String.strip %>
+  <% end %>
+
+<% end %>
+<%= if Map.size(test.request.params) > 0 do %>
+#### Params
+```json
+<%= Poison.encode!(test.request.params) %>
+```
+
+<% end %>
+### Response
+
+#### Status code `<%= test.response.status %>`
+
+<%= if String.length(test.response.body) > 0 do %>
+#### Body
+```json
+<%= test.response.body %>
+```
+
+<% end %>
+<% end %>

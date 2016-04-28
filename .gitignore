@@ -6,3 +6,4 @@
 erl_crash.dump
 *.ez
 api_docs.html
+api_docs.md
