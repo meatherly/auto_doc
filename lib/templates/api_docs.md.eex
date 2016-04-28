@@ -6,7 +6,7 @@
 <%= if Enum.count(test.request.headers) > 0 do %><%= for headers <- test.request.headers do %>* <%= "#{Enum.join(Tuple.to_list(headers), ": `")}`" |> String.strip %>
 <% end %><% end %>
 <%= if Map.size(test.request.params) > 0 do %>```json
-<%= Poison.encode!(test.request.params) %>
+<%= Poison.encode!(test.request.params, pretty: true) %>
 ```
 <% end %>
 ### Response
@@ -17,7 +17,7 @@
 <%= if String.length(test.response.body) > 0 do %>Returns this body response :
 
 ```json
-<%= test.response.body %>
+<%= test.response.body |> Poison.decode!() |> Poison.encode!(pretty: true) %>
 ```<% end %>
 
 <% end %>
