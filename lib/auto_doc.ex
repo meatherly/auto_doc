@@ -39,4 +39,18 @@ defmodule AutoDoc do
       AutoDoc.Agent.add_test_to_docs(conn, test_name)
     end)
   end
+
+  @spec document_api(Plug.Conn.t, binary, binary) :: no_return
+  def document_api(%Plug.Conn{} = conn, test_name, file_name) do
+    Plug.Conn.register_before_send(conn, fn(conn) ->
+      AutoDoc.Agent.add_test_to_docs(conn, test_name, file_name)
+    end)
+  end
+
+  @spec document_api(Plug.Conn.t, binary, binary, binary) :: no_return
+  def document_api(%Plug.Conn{} = conn, test_name, file_name, file_format) do
+    Plug.Conn.register_before_send(conn, fn(conn) ->
+      AutoDoc.Agent.add_test_to_docs(conn, test_name, file_name, file_format)
+    end)
+  end
 end

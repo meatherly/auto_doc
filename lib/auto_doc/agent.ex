@@ -16,11 +16,13 @@ defmodule AutoDoc.Agent do
     |> add_test_to_docs(test_name, "#{Path.expand(".")}/api_docs")
   end
 
+  @doc false
   def add_test_to_docs(conn, test_name, file_name) do
     conn
     |> add_test_to_docs(test_name, file_name, "html")
   end
 
+  @doc false
   def add_test_to_docs(conn, test_name, file_name, file_format) do
     request = Request.new(conn)
     response = Response.new(conn)
