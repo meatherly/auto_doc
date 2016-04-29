@@ -20,9 +20,9 @@ defmodule AutoDoc.Response do
     %Response{body: IO.iodata_to_binary(body), status: status, headers: headers}
   end
 
-  defp has_json_header?(headers) do
-    Enum.any?(headers, fn({k,v}) ->
-      k == "content-type" && v == "application/json"
-    end)
-  end
+  # defp has_json_header?(headers) do
+  #   Enum.any?(headers, fn({k,v}) ->
+  #     k == "content-type" && v == "application/json"
+  #   end)
+  # end
 end

@@ -11,19 +11,8 @@ defmodule AutoDoc.Agent do
   end
 
   @doc false
-  def add_test_to_docs(conn, test_name) do
-    conn
-    |> add_test_to_docs(test_name, "#{Path.expand(".")}/api_docs")
-  end
-
-  @doc false
-  def add_test_to_docs(conn, test_name, file_name) do
-    conn
-    |> add_test_to_docs(test_name, file_name, "html")
-  end
-
-  @doc false
-  def add_test_to_docs(conn, test_name, file_name, file_format) do
+  def add_test_to_docs(conn, test_name, opts \\ []) do
+    opts = opts ++ [file_name: "#{Path.expand(".")}/api_docs", file_format: "html"]
     request = Request.new(conn)
     response = Response.new(conn)
 
@@ -31,8 +20,8 @@ defmodule AutoDoc.Agent do
       {docs, [%{test_name: test_name,
                 request: request,
                 response: response,
-                file_name: file_name,
-                file_format: file_format}| docs]}
+                file_name: opts[:file_name],
+                file_format: opts[:file_format]}| docs]}
     end)
 
     conn

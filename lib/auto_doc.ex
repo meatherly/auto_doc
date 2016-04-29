@@ -28,29 +28,28 @@ defmodule AutoDoc do
   setup context do
     conn =
       conn()
-      |> AutoDoc.document_api(context[:test])
+      |> AutoDoc.document_api(context[:test], context[:auto_doc])
     {:ok, conn: conn}
   end
+
+  @tag auto_doc: [file_name: "priv/docs/file1", file_format: "md"]
+  test "testing ...." do
+    ...
+  end
+
+  @tag auto_doc: [file_name: "priv/docs/file2", file_format: "html"]
+  test "testing ..." do
+    ...
+  end
+
   ```
   """
-  @spec document_api(Plug.Conn.t, binary) :: no_return
-  def document_api(%Plug.Conn{} = conn, test_name) do
-    Plug.Conn.register_before_send(conn, fn(conn) ->
-      AutoDoc.Agent.add_test_to_docs(conn, test_name)
-    end)
-  end
-
-  @spec document_api(Plug.Conn.t, binary, binary) :: no_return
-  def document_api(%Plug.Conn{} = conn, test_name, file_name) do
-    Plug.Conn.register_before_send(conn, fn(conn) ->
-      AutoDoc.Agent.add_test_to_docs(conn, test_name, file_name)
-    end)
-  end
-
-  @spec document_api(Plug.Conn.t, binary, binary, binary) :: no_return
-  def document_api(%Plug.Conn{} = conn, test_name, file_name, file_format) do
-    Plug.Conn.register_before_send(conn, fn(conn) ->
-      AutoDoc.Agent.add_test_to_docs(conn, test_name, file_name, file_format)
-    end)
+  @spec document_api(Plug.Conn.t, binary, list) :: no_return
+  def document_api(%Plug.Conn{} = conn, test_name, opts \\ []) do
+    if Process.whereis(AutoDoc.Agent) do
+      Plug.Conn.register_before_send(conn, fn(conn) ->
+        AutoDoc.Agent.add_test_to_docs(conn, test_name, opts)
+      end)
+    end
   end
 end
