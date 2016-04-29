@@ -50,6 +50,8 @@ defmodule AutoDoc do
       Plug.Conn.register_before_send(conn, fn(conn) ->
         AutoDoc.Agent.add_test_to_docs(conn, test_name, opts)
       end)
+    else
+      conn
     end
   end
 end
