@@ -51,9 +51,7 @@
                   <% end %>
                   <%= if Map.size(test.request.params) > 0 do %>
                   <h5>Params</h5>
-                  <pre class="json">
-                    <%= Poison.encode!(test.request.params) %>
-                  </pre>
+                  <pre class="json"><%= Poison.encode!(test.request.params, pretty: true) %></pre>
                   <% end %>
                 </div>
                 <hr>
@@ -65,9 +63,7 @@
                   </div>
                   <%= if String.length(test.response.body) > 0 do %>
                   <h5>Body</h5>
-                  <pre class="json">
-                    <%= test.response.body %>
-                  </pre>
+                  <pre class="json"><%= test.response.body |> Poison.decode!() |> Poison.encode!(pretty: true) %></pre>
                   <% end %>
                 </div>
               </div>
@@ -76,20 +72,5 @@
         </div>
       <% end %>
     </div>
-
-    <script type="text/javascript">
-      (function prettyPrintJson() {
-        var jsonNodes = document.getElementsByClassName("json");
-        for (i = 0; i < jsonNodes.length; i++) {
-          try {
-            var json = JSON.parse(jsonNodes[i].innerText.trim());
-            jsonNodes[i].innerText = JSON.stringify(json, null, 2);
-            jsonNodes[i].className = jsonNodes[i].className + " prettyprint";
-          } catch (error) {
-            console.error("Error: " + error);
-          }
-        }
-      })();
-    </script>
   </body>
 </html>

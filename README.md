@@ -26,14 +26,25 @@ The package can be installed as:
 
   2. Add `context` to your `setup` function. Also pass the `conn` and `context[:test]` to `AutoDoc.document_api/2` in your setup block.
 
-    ``` elixir
+  ``` elixir
     setup context do
       conn =
         conn()
-        |> AutoDoc.document_api(context[:test])
+        |> AutoDoc.document_api(context[:test], context[:auto_doc])
       {:ok, conn: conn}
     end
-    ```
+
+    @tag auto_doc: [file_name: "priv/docs/file1", file_format: "md"]
+    test "testing ...." do
+      ...
+    end
+
+    @tag auto_doc: [file_name: "priv/docs/file2", file_format: "html"]
+    test "testing ..." do
+      ...
+    end
+
+  ```
 
   3. Run `mix test`. This will create a `api-docs.html` file at the root of your project which you can then open with a web browser.
 

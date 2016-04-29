@@ -16,13 +16,13 @@ defmodule AutoDoc.Response do
   alias AutoDoc.Response
 
   @doc false
-  def new(%Plug.Conn{resp_body: body, status: status, resp_headers: headers} = conn) do
+  def new(%Plug.Conn{resp_body: body, status: status, resp_headers: headers} = _conn) do
     %Response{body: IO.iodata_to_binary(body), status: status, headers: headers}
   end
 
-  defp has_json_header?(headers) do
-    Enum.any?(headers, fn({k,v}) ->
-      k == "content-type" && v == "application/json"
-    end)
-  end
+  # defp has_json_header?(headers) do
+  #   Enum.any?(headers, fn({k,v}) ->
+  #     k == "content-type" && v == "application/json"
+  #   end)
+  # end
 end

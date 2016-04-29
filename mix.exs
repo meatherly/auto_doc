@@ -1,7 +1,7 @@
 defmodule AutoDoc.Mixfile do
   use Mix.Project
 
-  @version "0.0.2"
+  @version "0.0.3"
 
   def project do
     [app: :auto_doc,
@@ -25,11 +25,10 @@ defmodule AutoDoc.Mixfile do
 
   defp deps do
     [{:plug, "~> 1.0"},
-    {:poison, "~> 1.5"},
-
-    # Docs dependencies
-    {:earmark, "~> 0.1", only: :docs},
-    {:ex_doc, "~> 0.10", only: :docs}]
+     {:poison, "~> 1.5"},
+     # Docs dependencies
+     {:earmark, "~> 0.1", only: :docs},
+     {:ex_doc, "~> 0.10", only: :docs}]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
@@ -43,8 +42,8 @@ defmodule AutoDoc.Mixfile do
 
   defp package do
       [files: ["lib", "mix.exs", "README*"],
-      maintainers: ["Michael Eatherly"],
-      licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/meatherly/auto_doc"}]
+       maintainers: ["Michael Eatherly", "Hugues Dubois"],
+       licenses: ["MIT"],
+       links: %{"GitHub" => "https://github.com/meatherly/auto_doc"}]
   end
 end

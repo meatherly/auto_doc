@@ -22,8 +22,10 @@ defmodule AutoDocTest do
     assert Agent.get(agent, fn(docs) -> docs end)
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Retrieve a list of users"}
+               request: AutoDoc.Request.new(conn),
+               test_name: "Retrieve a list of users",
+               file_name: "#{Path.expand(".")}/api_docs",
+               file_format: "html"}
     end)
   end
 
@@ -36,8 +38,10 @@ defmodule AutoDocTest do
     assert Agent.get(agent, fn(docs) -> docs end)
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Add a new user"}
+               request: AutoDoc.Request.new(conn),
+               test_name: "Add a new user",
+               file_name: "#{Path.expand(".")}/api_docs",
+               file_format: "html"}
     end)
   end
 
@@ -50,8 +54,10 @@ defmodule AutoDocTest do
     assert Agent.get(agent, fn(docs) -> docs end)
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Update a user"}
+               request: AutoDoc.Request.new(conn),
+               test_name: "Update a user",
+               file_name: "#{Path.expand(".")}/api_docs",
+               file_format: "html"}
     end)
   end
 
@@ -64,8 +70,10 @@ defmodule AutoDocTest do
     assert Agent.get(agent, fn(docs) -> docs end)
     |> Enum.any?(fn(doc) ->
       doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Delete a user"}
+               request: AutoDoc.Request.new(conn),
+               test_name: "Delete a user",
+               file_name: "#{Path.expand(".")}/api_docs",
+               file_format: "html"}
     end)
   end
 end

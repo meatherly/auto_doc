@@ -24,7 +24,7 @@ defmodule AutoDoc.Request do
 
 
   @doc false
-  def new(%Plug.Conn{req_headers: headers, method: method, params: params, request_path: path} = conn) do
+  def new(%Plug.Conn{req_headers: headers, method: method, params: params, request_path: path} = _conn) do
     %Request{headers: headers, method: method, params: params, path: path}
   end
 end
