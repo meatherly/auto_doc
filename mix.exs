@@ -25,11 +25,11 @@ defmodule AutoDoc.Mixfile do
 
   defp deps do
     [{:plug, "~> 1.0"},
-    {:poison, "~> 1.5"},
+    {:poison, "~> 1.5 or ~> 2.2 or ~> 3.0"},
 
     # Docs dependencies
-    {:earmark, "~> 0.1", only: :docs},
-    {:ex_doc, "~> 0.10", only: :docs}]
+    {:earmark, "~> 1.0", only: :docs},
+    {:ex_doc, "~> 0.14", only: :docs}]
   end
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
