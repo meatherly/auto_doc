@@ -18,13 +18,14 @@ defmodule AutoDocTest do
       |> AutoDoc.document_api("Retrieve a list of users")
       |> AutoDoc.TestApp.call(@opts)
 
-
-    assert Agent.get(agent, fn(docs) -> docs end)
-    |> Enum.any?(fn(doc) ->
-      doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Retrieve a list of users"}
-    end)
+    assert Agent.get(agent, fn docs -> docs end)
+           |> Enum.any?(fn doc ->
+             doc == %{
+               response: AutoDoc.Response.new(conn),
+               request: AutoDoc.Request.new(conn),
+               test_name: "Retrieve a list of users"
+             }
+           end)
   end
 
   test "testing POST requests", %{agent: agent} do
@@ -33,12 +34,14 @@ defmodule AutoDocTest do
       |> AutoDoc.document_api("Add a new user")
       |> AutoDoc.TestApp.call(@opts)
 
-    assert Agent.get(agent, fn(docs) -> docs end)
-    |> Enum.any?(fn(doc) ->
-      doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Add a new user"}
-    end)
+    assert Agent.get(agent, fn docs -> docs end)
+           |> Enum.any?(fn doc ->
+             doc == %{
+               response: AutoDoc.Response.new(conn),
+               request: AutoDoc.Request.new(conn),
+               test_name: "Add a new user"
+             }
+           end)
   end
 
   test "testing PATCH requests", %{agent: agent} do
@@ -47,12 +50,14 @@ defmodule AutoDocTest do
       |> AutoDoc.document_api("Update a user")
       |> AutoDoc.TestApp.call(@opts)
 
-    assert Agent.get(agent, fn(docs) -> docs end)
-    |> Enum.any?(fn(doc) ->
-      doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Update a user"}
-    end)
+    assert Agent.get(agent, fn docs -> docs end)
+           |> Enum.any?(fn doc ->
+             doc == %{
+               response: AutoDoc.Response.new(conn),
+               request: AutoDoc.Request.new(conn),
+               test_name: "Update a user"
+             }
+           end)
   end
 
   test "testing DELETE requests", %{agent: agent} do
@@ -61,11 +66,13 @@ defmodule AutoDocTest do
       |> AutoDoc.document_api("Delete a user")
       |> AutoDoc.TestApp.call(@opts)
 
-    assert Agent.get(agent, fn(docs) -> docs end)
-    |> Enum.any?(fn(doc) ->
-      doc == %{response: AutoDoc.Response.new(conn),
-      request: AutoDoc.Request.new(conn),
-      test_name: "Delete a user"}
-    end)
+    assert Agent.get(agent, fn docs -> docs end)
+           |> Enum.any?(fn doc ->
+             doc == %{
+               response: AutoDoc.Response.new(conn),
+               request: AutoDoc.Request.new(conn),
+               test_name: "Delete a user"
+             }
+           end)
   end
 end

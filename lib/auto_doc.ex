@@ -9,11 +9,13 @@ defmodule AutoDoc do
   end
 
   @doc false
-  def start(_,_) do
+  def start(_, _) do
     import Supervisor.Spec, warn: false
+
     children = [
       worker(AutoDoc.Agent, [])
     ]
+
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: AutoDoc.Supervisor]
@@ -33,9 +35,9 @@ defmodule AutoDoc do
   end
   ```
   """
-  @spec document_api(Plug.Conn.t, binary) :: no_return
+  @spec document_api(Plug.Conn.t(), binary) :: no_return
   def document_api(%Plug.Conn{} = conn, test_name) do
-    Plug.Conn.register_before_send(conn, fn(conn) ->
+    Plug.Conn.register_before_send(conn, fn conn ->
       AutoDoc.Agent.add_test_to_docs(conn, test_name)
     end)
   end

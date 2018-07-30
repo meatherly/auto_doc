@@ -15,8 +15,8 @@ defmodule AutoDoc.Agent do
     request = Request.new(conn)
     response = Response.new(conn)
 
-    Agent.get_and_update(__MODULE__, fn(docs) ->
-      {docs, [%{test_name: test_name, request: request, response: response}| docs]}
+    Agent.get_and_update(__MODULE__, fn docs ->
+      {docs, [%{test_name: test_name, request: request, response: response} | docs]}
     end)
 
     conn
@@ -32,17 +32,20 @@ defmodule AutoDoc.Agent do
     case exit_code do
       1 ->
         Mix.Shell.IO.info("Tests have failed. No docs will be generated")
+
       0 ->
-        tests = Agent.get(__MODULE__, fn(docs) -> docs  end)
+        tests = Agent.get(__MODULE__, fn docs -> docs end)
+
         file_contents =
           Path.join([__DIR__, "..", "templates/api_docs.html.eex"])
-          |> Path.expand
-          |> EEx.eval_file([tests: tests])
+          |> Path.expand()
+          |> EEx.eval_file(tests: tests)
+
         File.write!("#{Path.expand(".")}/api_docs.html", file_contents)
         Mix.Shell.IO.info("Api docs have been created.")
+
       _ ->
         Mix.Shell.IO.info("Something Bad has happened. No docs have been generated.")
     end
   end
-
 end

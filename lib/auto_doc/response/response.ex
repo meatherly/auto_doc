@@ -4,24 +4,19 @@ defmodule AutoDoc.Response do
 
   It pulls out `body` and `status` properties from the `Plug.Conn` struct.
   """
-  @type t :: %__MODULE__{
-              body:    binary,
-              status:  integer,
-              headers: List.t}
+  @type t :: %__MODULE__{body: binary, status: integer, headers: List.t()}
 
-  defstruct body:    nil,
-            status:  nil,
+  defstruct body: nil,
+            status: nil,
             headers: []
 
-  alias AutoDoc.Response
-
   @doc false
-  def new(%Plug.Conn{resp_body: body, status: status, resp_headers: headers} = conn) do
-    %Response{body: IO.iodata_to_binary(body), status: status, headers: headers}
+  def new(%Plug.Conn{resp_body: body, status: status, resp_headers: headers}) do
+    %__MODULE__{body: IO.iodata_to_binary(body), status: status, headers: headers}
   end
 
   defp has_json_header?(headers) do
-    Enum.any?(headers, fn({k,v}) ->
+    Enum.any?(headers, fn {k, v} ->
       k == "content-type" && v == "application/json"
     end)
   end

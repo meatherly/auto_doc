@@ -9,7 +9,6 @@ defmodule AutoDoc.AgentTest do
     end) == "Tests have failed. No docs will be generated"
   end
 
-
   test "It should generate api docs file if the exit code is 0" do
     capture_io(fn ->
       AutoDoc.Agent.write_file(0)

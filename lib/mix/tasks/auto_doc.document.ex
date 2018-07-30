@@ -5,7 +5,7 @@ defmodule Mix.Tasks.AutoDoc.Document do
 
   def run(_args) do
     Mix.env(:test)
-    AutoDoc.Agent.start
-    Mix.Task.run "test"
+    AutoDoc.Agent.start()
+    Mix.Task.run("test")
   end
 end
