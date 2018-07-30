@@ -43,9 +43,12 @@ The package can be installed as:
   ## Example Doc Page
   ![Alt text](example_screen_shot.png?raw=true "Title")
 
-  ## Todo
+  ## Road Map
 
-  * Clean up code!
-  * Make Hex package
-  * Create a cowboy server to serve the `api-docs.html` via router `Plug`.
+  * Create a plug to serve the `api-docs.html` via router `Plug`.
   * Allow user to set an `ENV` to determine whether to create docs or not. This way they can create the docs on the build server.
+  * Use `@tag` or create custom tag to allow customization of what to doc and how to document. e.g. skipping test, markdown for description, etc.
+  * The ability to upload docs to a static cloud hosting service. e.g. Netlify, S3/Cloudfront, GitHub Pages, GitLab Pages
+  * Allow developers to add custom templates/themes
+
+  I'm always open to pull requests. Feel free to reach out to me on the Elixir Slack server `meatherly` is the username.
