@@ -10,11 +10,11 @@ The package can be installed as:
 
   1. Add auto_doc to your list of dependencies in `mix.exs`:
 
-    ``` elixir
-    def deps do
-      [{:auto_doc, "~> 0.0.2", only: :test}]
-    end
-    ```
+  ``` elixir
+  def deps do
+    [{:auto_doc, "~> 0.0.2", only: :test}]
+  end
+  ```
 
 ## Usage
 
@@ -26,14 +26,14 @@ The package can be installed as:
 
   2. Add `context` to your `setup` function. Also pass the `conn` and `context[:test]` to `AutoDoc.document_api/2` in your setup block.
 
-    ``` elixir
-    setup context do
-      conn =
-        conn()
-        |> AutoDoc.document_api(context[:test])
-      {:ok, conn: conn}
-    end
-    ```
+  ``` elixir
+  setup context do
+    conn =
+      conn()
+      |> AutoDoc.document_api(context[:test])
+    {:ok, conn: conn}
+  end
+  ```
 
   3. Run `mix test`. This will create a `api-docs.html` file at the root of your project which you can then open with a web browser.
 
